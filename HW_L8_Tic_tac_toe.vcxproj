@@ -139,12 +139,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BaseWin.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="GameField.h" />
     <ClInclude Include="HW_L8_Tic_tac_toe.h" />
+    <ClInclude Include="MainWindow.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BaseWin.cpp" />
+    <ClCompile Include="GameField.cpp" />
     <ClCompile Include="HW_L8_Tic_tac_toe.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -1,14 +1,11 @@
-﻿#include "framework.h"
-#include "HW_L8_Tic_tac_toe.h"
+﻿#include "HW_L8_Tic_tac_toe.h"
 
-#define MAX_LOADSTRING 100
+
 #define SCREEN_WIDTH 900
 #define SCREEN_HEIGHT 600
 
 // Глобальные переменные:
 HINSTANCE hInst;                                // текущий экземпляр
-WCHAR szTitle[MAX_LOADSTRING];                  // Текст строки заголовка
-WCHAR szWindowClass[MAX_LOADSTRING];            // имя класса главного окна
 
 // Отправить объявления функций, включенных в этот модуль кода:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -24,11 +21,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-    // TODO: Разместите код здесь.
+    hInst = hInstance; // Сохранить маркер экземпляра в глобальной переменной
 
-    // Инициализация глобальных строк
-    LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-    LoadStringW(hInstance, IDC_HWL8TICTACTOE, szWindowClass, MAX_LOADSTRING);
+    MainWindow MainWin; //Главное окно
+
+    MainWin.SetSizeWindow(SCREEN_WIDTH, SCREEN_HEIGHT);
+    
     MyRegisterClass(hInstance);
 
     // Выполнить инициализацию приложения:
@@ -74,8 +72,8 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.hInstance      = hInstance;
     wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_HWL8TICTACTOE));
     wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
-    wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
-    wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_HWL8TICTACTOE);
+    wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+3);
+    wcex.lpszMenuName   = NULL;//MAKEINTRESOURCEW(IDC_HWL8TICTACTOE);
     wcex.lpszClassName  = szWindowClass;
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
@@ -97,10 +95,10 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    hInst = hInstance; // Сохранить маркер экземпляра в глобальной переменной
 
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-       GetSystemMetrics(SM_CXSCREEN) / 2 - SCREEN_WIDTH / 2, // x центр формы
-       GetSystemMetrics(SM_CYSCREEN) / 2 - SCREEN_HEIGHT / 2, // y центр формы
-       SCREEN_WIDTH, /* width */
-       SCREEN_HEIGHT, /* height */
+       (GetSystemMetrics(SM_CXSCREEN) - SCREEN_WIDTH) / 2,  // x центр формы
+       (GetSystemMetrics(SM_CYSCREEN) - SCREEN_HEIGHT) / 2, // y центр формы
+       SCREEN_WIDTH,                                        // width 
+       SCREEN_HEIGHT,                                       // height
        nullptr, nullptr, hInstance, nullptr);
 
    if (!hWnd)

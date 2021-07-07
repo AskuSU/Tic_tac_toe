@@ -1,5 +1,6 @@
 #pragma once
 #include"BaseWin.h"
+#include"Resource.h"
 
 #include<list>
 #include <memory>
@@ -24,7 +25,7 @@ class MainWindow : public BaseWindow<MainWindow>
     Mode                    mode;
     size_t                  nextColor;
 
-    list<shared_ptr<MyEllipse>>             ellipses;
+ /*   list<shared_ptr<MyEllipse>>             ellipses;
     list<shared_ptr<MyEllipse>>::iterator   selection;
 
     shared_ptr<MyEllipse> Selection()
@@ -41,7 +42,7 @@ class MainWindow : public BaseWindow<MainWindow>
 
     void    ClearSelection() { selection = ellipses.end(); }
     HRESULT InsertEllipse(float x, float y);
-
+*/
     BOOL    HitTest(float x, float y);
     void    SetMode(Mode m);
     void    MoveSelection(float x, float y);
@@ -56,11 +57,18 @@ class MainWindow : public BaseWindow<MainWindow>
 
 public:
 
-    MainWindow() : pFactory(NULL), pRenderTarget(NULL), pBrush(NULL),
-        ptMouse(D2D1::Point2F()), nextColor(0), selection(ellipses.end())
+    MainWindow(HINSTANCE* hInst) : BaseWindow(hInst), pFactory(NULL), pRenderTarget(NULL), pBrush(NULL),
+        ptMouse(D2D1::Point2F()), nextColor(0)//, selection(ellipses.end())
     {
     }
+    //MainWindow(HINSTANCE* hInst) : BaseWindow(hInst), pFactory(NULL), pRenderTarget(NULL), pBrush(NULL),
+    //    ptMouse(D2D1::Point2F()), nextColor(0)//, selection(ellipses.end())
+    //{
+    //}
 
-    PCWSTR  ClassName() const { return szWindowClass; }
     LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+    //  ‘”Ќ ÷»я: WndProc(HWND, UINT, WPARAM, LPARAM)
+    //  ÷≈Ћ№: ќбрабатывает сообщени€ в главном окне.
+    static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 };

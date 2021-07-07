@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BaseWin.h" />
+    <ClInclude Include="DPImgt.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GameField.h" />
     <ClInclude Include="HW_L8_Tic_tac_toe.h" />
@@ -149,8 +150,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseWin.cpp" />
+    <ClCompile Include="DPImgt.cpp" />
     <ClCompile Include="GameField.cpp" />
     <ClCompile Include="HW_L8_Tic_tac_toe.cpp" />
+    <ClCompile Include="MainWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="HW_L8_Tic_tac_toe.rc" />

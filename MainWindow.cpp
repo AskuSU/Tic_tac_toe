@@ -99,7 +99,7 @@ LRESULT CALLBACK MainWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPA
         switch (wmId)
         {
         case IDM_ABOUT:
-            //DialogBox(*pt_hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
+                DialogBox(*pt_hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About, 0L);
             break;
         case IDM_EXIT:
             DestroyWindow(hWnd);

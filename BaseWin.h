@@ -23,7 +23,7 @@ private:
 
 public:
 
-    HINSTANCE* pt_hInst;  // текущий экземпляр
+    static HINSTANCE* pt_hInst;  // текущий экземпляр
     BaseWindow(HINSTANCE* hInst);
     HWND Window() const { return hWnd; }
 
@@ -46,7 +46,7 @@ public:
     //  ЦЕЛЬ: Обрабатывает сообщения в главном окне.
     static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-    // Обработчик сообщений для окна "О программе".
+    // Обработчик сообщений для окна "О программе".    
     static INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 
     template <class T> void SafeRelease(T** ppT);
@@ -61,5 +61,7 @@ protected:
     PCWSTR  TitleName() const { return szTitle; };
     virtual LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) = 0;
 };
+
+
 
 #endif

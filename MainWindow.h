@@ -57,18 +57,16 @@ class MainWindow : public BaseWindow<MainWindow>
 
 public:
 
-    MainWindow(HINSTANCE* hInst) : BaseWindow(hInst), pFactory(NULL), pRenderTarget(NULL), pBrush(NULL),
+    MainWindow(HINSTANCE* hInst) : BaseWindow(hInst),pFactory(NULL), pRenderTarget(NULL), pBrush(NULL),
         ptMouse(D2D1::Point2F()), nextColor(0)//, selection(ellipses.end())
     {
     }
-    //MainWindow(HINSTANCE* hInst) : BaseWindow(hInst), pFactory(NULL), pRenderTarget(NULL), pBrush(NULL),
-    //    ptMouse(D2D1::Point2F()), nextColor(0)//, selection(ellipses.end())
-    //{
-    //}
-
+    
     LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
 
     //  ‘”Ќ ÷»я: WndProc(HWND, UINT, WPARAM, LPARAM)
     //  ÷≈Ћ№: ќбрабатывает сообщени€ в главном окне.
     static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 };
+
+HINSTANCE* BaseWindow<MainWindow>::pt_hInst = nullptr;

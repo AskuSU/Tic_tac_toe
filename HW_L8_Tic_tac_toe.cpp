@@ -19,7 +19,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     hInst = hInstance; // Сохранить маркер экземпляра в глобальной переменной
 
-    MainWindow MainWin(&hInstance); //Главное окно
+    MainWindow MainWin(&hInst); //Главное окно
+
+    
 
     MainWin.SetSizeWindow(SCREEN_WIDTH, SCREEN_HEIGHT);
     MainWin.RegisterWinClass(hInstance);

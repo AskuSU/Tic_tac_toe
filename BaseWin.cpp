@@ -34,7 +34,7 @@ inline ATOM BaseWindow<DERIVED_TYPE>::RegisterWinClass(HINSTANCE hInstance)
     wcex.cbSize = sizeof(WNDCLASSEX);
 
     wcex.style = CS_HREDRAW | CS_VREDRAW; //CS_NOCLOSE - отключить кнопку закрыть
-    wcex.lpfnWndProc = MainWindow::WndProc;
+    wcex.lpfnWndProc = DERIVED_TYPE::WndProc;
     wcex.cbClsExtra = 0;
     wcex.cbWndExtra = 0;
     wcex.hInstance = hInstance; //GetModuleHandle(NULL); //Если явно не передал hInstance
@@ -113,20 +113,8 @@ LRESULT BaseWindow<DERIVED_TYPE>::WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, L
     }
 }
 
-
 template<class DERIVED_TYPE>
-template<class T>
-inline void BaseWindow<DERIVED_TYPE>::SafeRelease(T** ppT)
-{
-    if (*ppT)
-    {
-        (*ppT)->Release();
-        *ppT = NULL;
-    }    
-}
-
-// Обработчик сообщений для окна "О программе".
-static INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+INT_PTR BaseWindow<DERIVED_TYPE>::About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
     UNREFERENCED_PARAMETER(lParam);
     switch (message)
@@ -143,4 +131,16 @@ static INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
         break;
     }
     return (INT_PTR)FALSE;
+}
+
+
+template<class DERIVED_TYPE>
+template<class T>
+inline void BaseWindow<DERIVED_TYPE>::SafeRelease(T** ppT)
+{
+    if (*ppT)
+    {
+        (*ppT)->Release();
+        *ppT = NULL;
+    }    
 }

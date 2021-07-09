@@ -49,7 +49,8 @@ public:
     // Обработчик сообщений для окна "О программе".    
     static INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 
-    template <class T> void SafeRelease(T** ppT);
+    template <class T>
+    void SafeRelease(T** ppT);
 
 
 protected:
@@ -62,6 +63,15 @@ protected:
     virtual LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) = 0;
 };
 
-
+template<class DERIVED_TYPE>
+template<class T>
+void BaseWindow<DERIVED_TYPE>::SafeRelease(T** ppT)
+{
+    if (*ppT)
+    {
+        (*ppT)->Release();
+        *ppT = NULL;
+    }
+}
 
 #endif

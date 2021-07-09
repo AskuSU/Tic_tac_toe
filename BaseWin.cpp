@@ -34,7 +34,7 @@ inline ATOM BaseWindow<DERIVED_TYPE>::RegisterWinClass(HINSTANCE hInstance)
     wcex.cbSize = sizeof(WNDCLASSEX);
 
     wcex.style = CS_HREDRAW | CS_VREDRAW; //CS_NOCLOSE - отключить кнопку закрыть
-    wcex.lpfnWndProc = DERIVED_TYPE::WndProc;
+    wcex.lpfnWndProc = WndProc;
     wcex.cbClsExtra = 0;
     wcex.cbWndExtra = 0;
     wcex.hInstance = hInstance; //GetModuleHandle(NULL); //Если явно не передал hInstance
@@ -65,7 +65,7 @@ BOOL BaseWindow<DERIVED_TYPE>::InitInstance(HINSTANCE hInstance, int nCmdShow)
         (GetSystemMetrics(SM_CYSCREEN) - height) / 2, // y центр формы
         width,                                        // width 
         height,                                       // height
-        nullptr, nullptr, hInstance, nullptr);
+        nullptr, nullptr, hInstance, this/*nullptr*/);
 
     if (!hWnd)
     {
@@ -89,7 +89,7 @@ BOOL BaseWindow<DERIVED_TYPE>::InitInstance(HINSTANCE hInstance, int nCmdShow)
 template<class DERIVED_TYPE>
 LRESULT BaseWindow<DERIVED_TYPE>::WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-    DERIVED_TYPE* pThis = NULL;
+    DERIVED_TYPE* pThis = nullptr;
 
     if (uMsg == WM_NCCREATE)
     {
@@ -133,14 +133,3 @@ INT_PTR BaseWindow<DERIVED_TYPE>::About(HWND hDlg, UINT message, WPARAM wParam, 
     return (INT_PTR)FALSE;
 }
 
-
-template<class DERIVED_TYPE>
-template<class T>
-inline void BaseWindow<DERIVED_TYPE>::SafeRelease(T** ppT)
-{
-    if (*ppT)
-    {
-        (*ppT)->Release();
-        *ppT = NULL;
-    }    
-}

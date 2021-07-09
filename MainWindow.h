@@ -25,6 +25,8 @@ class MainWindow : public BaseWindow<MainWindow>
     Mode                    mode;
     size_t                  nextColor;
 
+    D2D1_RECT_F             rect;
+
  /*   list<shared_ptr<MyEllipse>>             ellipses;
     list<shared_ptr<MyEllipse>>::iterator   selection;
 

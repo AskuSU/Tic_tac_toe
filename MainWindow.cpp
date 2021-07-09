@@ -21,7 +21,7 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
         return 0;
 
     case WM_PAINT:
-        //OnPaint();
+        OnPaint();
         return 0;
 
     case WM_SIZE:
@@ -89,7 +89,7 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 //
 LRESULT CALLBACK MainWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    
+    //DERIVED_TYPE* pThis = NULL;
     switch (message)
     {
     case WM_COMMAND:
@@ -109,22 +109,99 @@ LRESULT CALLBACK MainWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPA
         }
     }
     break;
-    case WM_PAINT:
-    {
-        PAINTSTRUCT ps;
-        HDC hdc = BeginPaint(hWnd, &ps);
-        // TODO: Добавьте сюда любой код прорисовки, использующий HDC...
-        EndPaint(hWnd, &ps);
-    }
-    break;
+    //case WM_PAINT:
+    //{
+    //    PAINTSTRUCT ps;
+    //    HDC hdc = BeginPaint(hWnd, &ps);
+    //    // TODO: Добавьте сюда любой код прорисовки, использующий HDC...
+    //    EndPaint(hWnd, &ps);
+    //}
+    //break;
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);
     }
+    /*if (pThis)
+    {
+        return pThis->HandleMessage(uMsg, wParam, lParam);
+    }
+    else
+    {
+        return DefWindowProc(hwnd, uMsg, wParam, lParam);
+    }*/
     return 0;
     
 }
 
+HRESULT MainWindow::CreateGraphicsResources()
+{
+    HRESULT hr = S_OK;
+    if (pRenderTarget == NULL)
+    {
+        RECT rc;
+        GetClientRect(hWnd, &rc);
 
+        D2D1_SIZE_U size = D2D1::SizeU(rc.right, rc.bottom);
+
+        hr = pFactory->CreateHwndRenderTarget(
+            D2D1::RenderTargetProperties(),
+            D2D1::HwndRenderTargetProperties(hWnd, size),
+            &pRenderTarget);
+
+        if (SUCCEEDED(hr))
+        {
+            const D2D1_COLOR_F color = D2D1::ColorF(1.0f, 1.0f, 0);
+            hr = pRenderTarget->CreateSolidColorBrush(color, &pBrush);
+        }
+    }
+    return hr;
+}
+
+void MainWindow::DiscardGraphicsResources()
+{
+    SafeRelease(&pRenderTarget);
+    SafeRelease(&pBrush);
+}
+
+void MainWindow::OnPaint()
+{
+    HRESULT hr = CreateGraphicsResources();
+    if (SUCCEEDED(hr))
+    {
+        PAINTSTRUCT ps;
+        BeginPaint(hWnd, &ps);
+
+        pRenderTarget->BeginDraw();
+
+        //pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::SkyBlue));
+
+        rect = D2D1::RectF(
+            300 / 2 - 50.0f,
+            200 / 2 - 50.0f,
+            300 / 2 + 50.0f,
+            200 / 2 + 50.0f
+        );
+        
+        pRenderTarget->DrawRectangle(rect, pBrush, 1.0f);
+
+        /*for (auto i = ellipses.begin(); i != ellipses.end(); ++i)
+        {
+            (*i)->Draw(pRenderTarget, pBrush);
+        }
+
+        if (Selection())
+        {
+            pBrush->SetColor(D2D1::ColorF(D2D1::ColorF::Red));
+            pRenderTarget->DrawEllipse(Selection()->ellipse, pBrush, 2.0f);
+        }*/
+
+        hr = pRenderTarget->EndDraw();
+        if (FAILED(hr) || hr == D2DERR_RECREATE_TARGET)
+        {
+            DiscardGraphicsResources();
+        }
+        EndPaint(hWnd, &ps);
+    }
+}

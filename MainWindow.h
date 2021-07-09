@@ -1,6 +1,7 @@
 #pragma once
 #include"BaseWin.h"
 #include"Resource.h"
+#include "GameField.h"
 
 #include<list>
 #include <memory>
@@ -25,26 +26,19 @@ class MainWindow : public BaseWindow<MainWindow>
     Mode                    mode;
     size_t                  nextColor;
 
-    D2D1_RECT_F             rect;
+    //D2D1_RECT_F             rect;
+    
+    gameField               gameF;
+    
+    list<shared_ptr<CellField>>             cells;
+    list<shared_ptr<CellField>>::iterator   selection;
+        
+    shared_ptr<CellField> Selection();
+    
 
- /*   list<shared_ptr<MyEllipse>>             ellipses;
-    list<shared_ptr<MyEllipse>>::iterator   selection;
+    void    ClearSelection() { selection = cells.end(); }
+    //HRESULT InsertEllipse(float x, float y);
 
-    shared_ptr<MyEllipse> Selection()
-    {
-        if (selection == ellipses.end())
-        {
-            return nullptr;
-        }
-        else
-        {
-            return (*selection);
-        }
-    }
-
-    void    ClearSelection() { selection = ellipses.end(); }
-    HRESULT InsertEllipse(float x, float y);
-*/
     BOOL    HitTest(float x, float y);
     void    SetMode(Mode m);
     void    MoveSelection(float x, float y);
@@ -56,6 +50,7 @@ class MainWindow : public BaseWindow<MainWindow>
     void    OnLButtonUp();
     void    OnMouseMove(int pixelX, int pixelY, DWORD flags);
     void    OnKeyDown(UINT vkey);
+    void    CalculeteObjectOnField();
 
 public:
 
@@ -68,7 +63,7 @@ public:
 
     //  ‘”Ќ ÷»я: WndProc(HWND, UINT, WPARAM, LPARAM)
     //  ÷≈Ћ№: ќбрабатывает сообщени€ в главном окне.
-    static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+    //static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 };
 
 HINSTANCE* BaseWindow<MainWindow>::pt_hInst = nullptr;

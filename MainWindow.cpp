@@ -25,7 +25,7 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
         return 0;
 
     case WM_SIZE:
-        //Resize();
+        Resize();
         return 0;
 
     case WM_LBUTTONDOWN:
@@ -40,13 +40,13 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
         //OnMouseMove(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), (DWORD)wParam);
         return 0;
 
-    case WM_SETCURSOR:
+    /*case WM_SETCURSOR:
         if (LOWORD(lParam) == HTCLIENT)
         {
             SetCursor(hCursor);
             return TRUE;
         }
-        break;
+        break;*/
 
     case WM_KEYDOWN:
         //OnKeyDown((UINT)wParam);
@@ -79,60 +79,62 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
     return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
-//  ФУНКЦИЯ: WndProc(HWND, UINT, WPARAM, LPARAM)
-//
-//  ЦЕЛЬ: Обрабатывает сообщения в главном окне.
-//
-//  WM_COMMAND  - обработать меню приложения
-//  WM_PAINT    - Отрисовка главного окна
-//  WM_DESTROY  - отправить сообщение о выходе и вернуться
-//
-LRESULT CALLBACK MainWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+////  ФУНКЦИЯ: WndProc(HWND, UINT, WPARAM, LPARAM)
+////
+////  ЦЕЛЬ: Обрабатывает сообщения в главном окне.
+////
+////  WM_COMMAND  - обработать меню приложения
+////  WM_PAINT    - Отрисовка главного окна
+////  WM_DESTROY  - отправить сообщение о выходе и вернуться
+////
+//LRESULT CALLBACK MainWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+//{
+//    switch (message)
+//    {
+//    case WM_COMMAND:
+//    {
+//        int wmId = LOWORD(wParam);
+//        // Разобрать выбор в меню:
+//        switch (wmId)
+//        {
+//        case IDM_ABOUT:
+//                DialogBox(*pt_hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About, 0L);
+//            break;
+//        case IDM_EXIT:
+//            DestroyWindow(hWnd);
+//            break;
+//        default:
+//            return DefWindowProc(hWnd, message, wParam, lParam);
+//        }
+//    }
+//    break;
+//    case WM_PAINT:
+//    {
+//        PAINTSTRUCT ps;
+//        HDC hdc = BeginPaint(hWnd, &ps);
+//        // TODO: Добавьте сюда любой код прорисовки, использующий HDC...
+//        EndPaint(hWnd, &ps);
+//    }
+//    break;
+//    case WM_DESTROY:
+//        PostQuitMessage(0);
+//        break;
+//    default:
+//        return DefWindowProc(hWnd, message, wParam, lParam);
+//    }    
+//    return 0;    
+//}
+
+shared_ptr<CellField> MainWindow::Selection()
 {
-    //DERIVED_TYPE* pThis = NULL;
-    switch (message)
+    if (selection == cells.end())
     {
-    case WM_COMMAND:
-    {
-        int wmId = LOWORD(wParam);
-        // Разобрать выбор в меню:
-        switch (wmId)
-        {
-        case IDM_ABOUT:
-                DialogBox(*pt_hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About, 0L);
-            break;
-        case IDM_EXIT:
-            DestroyWindow(hWnd);
-            break;
-        default:
-            return DefWindowProc(hWnd, message, wParam, lParam);
-        }
-    }
-    break;
-    //case WM_PAINT:
-    //{
-    //    PAINTSTRUCT ps;
-    //    HDC hdc = BeginPaint(hWnd, &ps);
-    //    // TODO: Добавьте сюда любой код прорисовки, использующий HDC...
-    //    EndPaint(hWnd, &ps);
-    //}
-    //break;
-    case WM_DESTROY:
-        PostQuitMessage(0);
-        break;
-    default:
-        return DefWindowProc(hWnd, message, wParam, lParam);
-    }
-    /*if (pThis)
-    {
-        return pThis->HandleMessage(uMsg, wParam, lParam);
+        return nullptr;
     }
     else
     {
-        return DefWindowProc(hwnd, uMsg, wParam, lParam);
-    }*/
-    return 0;
-    
+        return (*selection);
+    }
 }
 
 HRESULT MainWindow::CreateGraphicsResources()
@@ -152,7 +154,7 @@ HRESULT MainWindow::CreateGraphicsResources()
 
         if (SUCCEEDED(hr))
         {
-            const D2D1_COLOR_F color = D2D1::ColorF(1.0f, 1.0f, 0);
+            const D2D1_COLOR_F color = D2D1::ColorF(1.0f, 1.0f, 1.0f, 1.0f);
             hr = pRenderTarget->CreateSolidColorBrush(color, &pBrush);
         }
     }
@@ -175,7 +177,19 @@ void MainWindow::OnPaint()
 
         pRenderTarget->BeginDraw();
 
-        //pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::SkyBlue));
+        CalculeteObjectOnField();
+
+        for (auto i = cells.begin(); i != cells.end(); i++)
+        {
+            (*i)->Draw(pRenderTarget, pBrush);
+
+        }
+        if (Selection())
+        {
+            pBrush->SetColor(D2D1::ColorF(D2D1::ColorF::White));
+            pRenderTarget->DrawRectangle(Selection()->rect, pBrush, gameF.thicknessBorderpx);
+        }
+        /*pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::Black));
 
         rect = D2D1::RectF(
             300 / 2 - 50.0f,
@@ -184,7 +198,7 @@ void MainWindow::OnPaint()
             200 / 2 + 50.0f
         );
         
-        pRenderTarget->DrawRectangle(rect, pBrush, 1.0f);
+        pRenderTarget->DrawRectangle(rect, pBrush, 3.0f);*/
 
         /*for (auto i = ellipses.begin(); i != ellipses.end(); ++i)
         {
@@ -203,5 +217,33 @@ void MainWindow::OnPaint()
             DiscardGraphicsResources();
         }
         EndPaint(hWnd, &ps);
+    }
+}
+
+void MainWindow::Resize()
+{
+    if (pRenderTarget != NULL)
+    {
+        RECT rc;
+        GetClientRect(hWnd, &rc);
+
+        D2D1_SIZE_U size = D2D1::SizeU(rc.right, rc.bottom);
+
+        pRenderTarget->Resize(size);
+
+        InvalidateRect(hWnd, NULL, FALSE);
+    }
+}
+
+void MainWindow::CalculeteObjectOnField()
+{
+    for (size_t i = 0; i < gameF.sizeMatrix; i++)
+    {
+        selection = cells.insert(
+            cells.end(),
+            shared_ptr<CellField>(new CellField()));
+
+        Selection()->rect.top = Selection()->rect.left = gameF.sizeCellpx * i + gameF.spaceBetweenCellpx;
+        Selection()->rect.bottom = Selection()->rect.right = gameF.sizeCellpx;
     }
 }

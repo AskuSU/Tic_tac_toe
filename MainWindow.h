@@ -16,14 +16,14 @@ class MainWindow : public BaseWindow<MainWindow>
         DragMode
     };
 
-    HCURSOR                 hCursor;
+    //HCURSOR                 hCursor;
 
     ID2D1Factory*           pFactory;
     ID2D1HwndRenderTarget*  pRenderTarget;
     ID2D1SolidColorBrush*   pBrush;
     D2D1_POINT_2F           ptMouse;
 
-    Mode                    mode;
+    //Mode                    mode;
     size_t                  nextColor;
     
     list<shared_ptr<CellField>>             cells;

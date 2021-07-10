@@ -6,7 +6,7 @@ template class BaseWindow<MainWindow>;
 
 //Конструктор Базового окна
 template<class DERIVED_TYPE>
-BaseWindow<DERIVED_TYPE>::BaseWindow(HINSTANCE* hInst) : hWnd(NULL)
+BaseWindow<DERIVED_TYPE>::BaseWindow(HINSTANCE* hInst) : hWnd(NULL), height(CW_USEDEFAULT), width(CW_USEDEFAULT)
 {    
     pt_hInst = hInst;
     // Инициализация глобальных строк
@@ -61,10 +61,10 @@ template<class DERIVED_TYPE>
 BOOL BaseWindow<DERIVED_TYPE>::InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
     HWND hWnd = CreateWindowW(ClassName(), TitleName(), WS_OVERLAPPEDWINDOW,
-        (GetSystemMetrics(SM_CXSCREEN) - width) / 2,  // x центр формы
-        (GetSystemMetrics(SM_CYSCREEN) - height) / 2, // y центр формы
-        width,                                        // width 
-        height,                                       // height
+        (GetSystemMetrics(SM_CXSCREEN) - (int)width) / 2,  // x центр формы
+        (GetSystemMetrics(SM_CYSCREEN) - (int)height) / 2, // y центр формы
+        (int)width,                                        // width 
+        (int)height,                                       // height
         nullptr, nullptr, hInstance, this/*nullptr*/);
 
     if (!hWnd)

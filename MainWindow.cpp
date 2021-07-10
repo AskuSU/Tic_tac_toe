@@ -181,7 +181,8 @@ void MainWindow::OnPaint()
 
         for (auto i = cells.begin(); i != cells.end(); i++)
         {
-            (*i)->Draw(pRenderTarget, pBrush);
+            (*i)->DrawCell(pRenderTarget, pBrush);
+            (*i)->DrawValue(pRenderTarget, pBrush);
 
         }
         //if (Selection())
@@ -245,8 +246,8 @@ void MainWindow::CalculeteObjectOnField()
                 cells.end(),
                 shared_ptr<CellField>(new CellField()));
 
-            Selection()->rect.top = gameField::spaceBetweenCellpx + (gameField::sizeCellpx + gameField::spaceBetweenCellpx) * i;
-            Selection()->rect.left = gameField::spaceBetweenCellpx + (gameField::sizeCellpx + gameField::spaceBetweenCellpx) * j;
+            Selection()->rect.top = (float)gameField::spaceBetweenCellpx + (gameField::sizeCellpx + gameField::spaceBetweenCellpx) * i;
+            Selection()->rect.left = (float)gameField::spaceBetweenCellpx + (gameField::sizeCellpx + gameField::spaceBetweenCellpx) * j;
             Selection()->rect.bottom = Selection()->rect.top + gameField::sizeCellpx;
             Selection()->rect.right = Selection()->rect.left + gameField::sizeCellpx;
         }        

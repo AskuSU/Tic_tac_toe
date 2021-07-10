@@ -76,7 +76,7 @@ BOOL CellField::HitTest(POINT pt)
 	return ((rect.left < pt.x) && (rect.right > pt.x)) && ((rect.top < pt.y) && (rect.bottom > pt.y));
 }
 
-CellField::cellField(GameField* gField) : cell(Cell::empty), color(gField->backgroundColour)
+CellField::cellField(GameField* gField) : cell(Cell::empty), color(gField->backgroundColour), ellipse(), rect(D2D1::RectF())
 {
 	gameField = gField;
 	lengthContent = gameField->sizeCellpx * 0.75f;
@@ -89,9 +89,10 @@ CellField::cellField(GameField* gField) : cell(Cell::empty), color(gField->backg
 
 }
 
-void CellField::SetValueOnCell()
+void CellField::SetValueOnCell(Cell value)
 {
-	if (cell == Cell::empty)
+	cell = value;
+	/*if (cell == Cell::empty)
 	{
 		cell = Cell::zero;
 		return;
@@ -105,5 +106,10 @@ void CellField::SetValueOnCell()
 	{
 		cell = Cell::empty;
 		return;
-	}
+	}*/
+}
+
+BOOL CellField::CheckEmptyInTheCell()
+{
+	return cell == Cell::empty;
 }

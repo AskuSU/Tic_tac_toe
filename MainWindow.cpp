@@ -264,7 +264,7 @@ void MainWindow::OnLButtonDown(int pixelX, int pixelY, DWORD flags)
 
     if (HitTest(pt))
     {
-        Selection()->SetValueOnCell();
+        gameLogic.playerTurn(Selection().get());
     }
             
     InvalidateRect(hWnd, NULL, FALSE);

@@ -2,6 +2,7 @@
 #include"BaseWin.h"
 #include"Resource.h"
 #include "GameField.h"
+#include "GameLogic.h"
 
 #include<list>
 #include <memory>
@@ -17,6 +18,7 @@ class MainWindow : public BaseWindow<MainWindow>
     };*/
 
     GameField gameField;
+    GameLogic gameLogic;
 
     //HCURSOR                 hCursor;
 

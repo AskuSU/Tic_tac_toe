@@ -47,6 +47,7 @@ typedef struct cellField
 
 	void DrawCell(ID2D1RenderTarget* pRT, ID2D1SolidColorBrush* pBrush);
 	void DrawValue(ID2D1RenderTarget* pRT, ID2D1SolidColorBrush* pBrush);
-	void SetValueOnCell();
+	BOOL CheckEmptyInTheCell();
+	void SetValueOnCell(Cell value);
 
 } CellField;

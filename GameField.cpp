@@ -71,3 +71,27 @@ void CellField::DrawValue(ID2D1RenderTarget* pRT, ID2D1SolidColorBrush* pBrush)
 		break;
 	}
 }
+
+BOOL CellField::HitTest(POINT pt)
+{
+	return ((rect.left < pt.x) && (rect.right > pt.x)) && ((rect.top < pt.y) && (rect.bottom > pt.y));
+}
+
+void CellField::SetValueOnCell()
+{
+	if (cell == Cell::empty)
+	{
+		cell = Cell::zero;
+		return;
+	}
+	if (cell == Cell::zero)
+	{
+		cell = Cell::cross;
+		return;
+	}
+	if (cell == Cell::cross)
+	{
+		cell = Cell::empty;
+		return;
+	}
+}

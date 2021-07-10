@@ -38,6 +38,9 @@ struct CellField
 	static float radiusZero;				//Радиус O
 	static float halfLengthDiagonalCross;	//Длинна половины диагонали X
 
+	BOOL HitTest(POINT pt);
+
 	void DrawCell(ID2D1RenderTarget* pRT, ID2D1SolidColorBrush* pBrush);
 	void DrawValue(ID2D1RenderTarget* pRT, ID2D1SolidColorBrush* pBrush);
+	void SetValueOnCell();
 };

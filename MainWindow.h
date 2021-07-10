@@ -35,7 +35,8 @@ class MainWindow : public BaseWindow<MainWindow>
     void    ClearSelection() { selection = cells.end(); }
     //HRESULT InsertEllipse(float x, float y);
 
-    BOOL    HitTest(float x, float y);
+    BOOL    HitTest(POINT pt);
+    void    clickOnCell(POINT pt);
     void    SetMode(Mode m);
     void    MoveSelection(float x, float y);
     HRESULT CreateGraphicsResources();
@@ -53,6 +54,7 @@ public:
     MainWindow(HINSTANCE* hInst) : BaseWindow(hInst),pFactory(NULL), pRenderTarget(NULL), pBrush(NULL),
         ptMouse(D2D1::Point2F()), nextColor(0)//, selection(ellipses.end())
     {
+        CalculeteObjectOnField();
     }
     
     LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);

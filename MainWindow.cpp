@@ -29,11 +29,11 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
         return 0;
 
     case WM_LBUTTONDOWN:
-        //OnLButtonDown(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), (DWORD)wParam);
+        OnLButtonDown(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), (DWORD)wParam);
         return 0;
 
     case WM_LBUTTONUP:
-        //OnLButtonUp();
+        OnLButtonUp();
         return 0;
 
     case WM_MOUSEMOVE:
@@ -137,6 +137,23 @@ shared_ptr<CellField> MainWindow::Selection()
     }
 }
 
+BOOL MainWindow::HitTest(POINT pt)
+{
+    for (auto i = cells.rbegin(); i != cells.rend(); ++i)
+    {
+        if ((*i)->HitTest(pt))
+        {
+            selection = (++i).base();
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
+void MainWindow::clickOnCell(POINT pt)
+{
+}
+
 HRESULT MainWindow::CreateGraphicsResources()
 {
     HRESULT hr = S_OK;
@@ -175,9 +192,7 @@ void MainWindow::OnPaint()
         PAINTSTRUCT ps;
         BeginPaint(hWnd, &ps);
 
-        pRenderTarget->BeginDraw();
-
-        CalculeteObjectOnField();
+        pRenderTarget->BeginDraw();        
 
         for (auto i = cells.begin(); i != cells.end(); i++)
         {
@@ -234,6 +249,25 @@ void MainWindow::Resize()
 
         InvalidateRect(hWnd, NULL, FALSE);
     }
+}
+
+void MainWindow::OnLButtonDown(int pixelX, int pixelY, DWORD flags)
+{
+    
+    POINT pt = { pixelX, pixelY };
+
+    if (HitTest(pt))
+    {
+        Selection()->SetValueOnCell();
+    }
+            
+    InvalidateRect(hWnd, NULL, FALSE);
+}
+
+void MainWindow::OnLButtonUp()
+{
+    //InvalidateRect(hWnd, NULL, FALSE);
+    //ReleaseCapture();
 }
 
 void MainWindow::CalculeteObjectOnField()

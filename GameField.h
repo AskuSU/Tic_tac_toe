@@ -4,10 +4,10 @@
 
 struct gameField
 {
-	size_t sizeMatrix = 3, 
-		sizeCellpx = 100,
-		thicknessBorderpx = 3,
-		spaceBetweenCellpx = 6;
+	static const size_t sizeMatrix = 3;			//Размер матрицы поля
+	static const size_t	sizeCellpx = 200;		//Длинна ячейки
+	static const size_t thicknessBorderpx = 1;	//Толщина рамки
+	static const size_t spaceBetweenCellpx = 4;	//Промежуток м/у ячейками 
 
 	size_t GetSizepx();
 };

@@ -154,7 +154,7 @@ HRESULT MainWindow::CreateGraphicsResources()
 
         if (SUCCEEDED(hr))
         {
-            const D2D1_COLOR_F color = D2D1::ColorF(1.0f, 1.0f, 1.0f, 1.0f);
+            const D2D1_COLOR_F color = D2D1::ColorF(1.0f, 1.0f, 1.0f);
             hr = pRenderTarget->CreateSolidColorBrush(color, &pBrush);
         }
     }
@@ -184,11 +184,11 @@ void MainWindow::OnPaint()
             (*i)->Draw(pRenderTarget, pBrush);
 
         }
-        if (Selection())
-        {
-            pBrush->SetColor(D2D1::ColorF(D2D1::ColorF::White));
-            pRenderTarget->DrawRectangle(Selection()->rect, pBrush, gameF.thicknessBorderpx);
-        }
+        //if (Selection())
+        //{
+        //    pBrush->SetColor(D2D1::ColorF(D2D1::ColorF::White));
+        //   // pRenderTarget->DrawRectangle(Selection()->rect, pBrush, gameF.thicknessBorderpx);
+        //}
         /*pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::Black));
 
         rect = D2D1::RectF(
@@ -237,13 +237,18 @@ void MainWindow::Resize()
 
 void MainWindow::CalculeteObjectOnField()
 {
-    for (size_t i = 0; i < gameF.sizeMatrix; i++)
+    for (size_t i = 0; i < gameField::sizeMatrix; i++)
     {
-        selection = cells.insert(
-            cells.end(),
-            shared_ptr<CellField>(new CellField()));
+        for (size_t j = 0; j < gameField::sizeMatrix; j++)
+        {
+            selection = cells.insert(
+                cells.end(),
+                shared_ptr<CellField>(new CellField()));
 
-        Selection()->rect.top = Selection()->rect.left = gameF.sizeCellpx * i + gameF.spaceBetweenCellpx;
-        Selection()->rect.bottom = Selection()->rect.right = gameF.sizeCellpx;
+            Selection()->rect.top = gameField::spaceBetweenCellpx;
+            Selection()->rect.left = gameField::spaceBetweenCellpx + (gameField::sizeCellpx + gameField::spaceBetweenCellpx) * i;
+            Selection()->rect.bottom = gameField::sizeCellpx + gameField::spaceBetweenCellpx;
+            Selection()->rect.right = Selection()->rect.left + gameField::sizeCellpx;
+        }        
     }
 }

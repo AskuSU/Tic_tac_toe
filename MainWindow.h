@@ -25,10 +25,6 @@ class MainWindow : public BaseWindow<MainWindow>
 
     Mode                    mode;
     size_t                  nextColor;
-
-    //D2D1_RECT_F             rect;
-    
-    gameField               gameF;
     
     list<shared_ptr<CellField>>             cells;
     list<shared_ptr<CellField>>::iterator   selection;

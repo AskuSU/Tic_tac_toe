@@ -1,8 +1,8 @@
 ﻿#include "HW_L8_Tic_tac_toe.h"
 
 
-#define SCREEN_WIDTH 900
-#define SCREEN_HEIGHT 600
+#define SCREEN_WIDTH 1200
+#define SCREEN_HEIGHT 750
 
 // Глобальные переменные:
 HINSTANCE hInst;                                // текущий экземпляр

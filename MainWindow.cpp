@@ -245,9 +245,9 @@ void MainWindow::CalculeteObjectOnField()
                 cells.end(),
                 shared_ptr<CellField>(new CellField()));
 
-            Selection()->rect.top = gameField::spaceBetweenCellpx;
-            Selection()->rect.left = gameField::spaceBetweenCellpx + (gameField::sizeCellpx + gameField::spaceBetweenCellpx) * i;
-            Selection()->rect.bottom = gameField::sizeCellpx + gameField::spaceBetweenCellpx;
+            Selection()->rect.top = gameField::spaceBetweenCellpx + (gameField::sizeCellpx + gameField::spaceBetweenCellpx) * i;
+            Selection()->rect.left = gameField::spaceBetweenCellpx + (gameField::sizeCellpx + gameField::spaceBetweenCellpx) * j;
+            Selection()->rect.bottom = Selection()->rect.top + gameField::sizeCellpx;
             Selection()->rect.right = Selection()->rect.left + gameField::sizeCellpx;
         }        
     }

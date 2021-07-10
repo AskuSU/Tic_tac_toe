@@ -143,6 +143,7 @@
     <ClInclude Include="DPImgt.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GameField.h" />
+    <ClInclude Include="GameLogic.h" />
     <ClInclude Include="HW_L8_Tic_tac_toe.h" />
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="Resource.h" />
@@ -152,6 +153,7 @@
     <ClCompile Include="BaseWin.cpp" />
     <ClCompile Include="DPImgt.cpp" />
     <ClCompile Include="GameField.cpp" />
+    <ClCompile Include="GameLogic.cpp" />
     <ClCompile Include="HW_L8_Tic_tac_toe.cpp" />
     <ClCompile Include="MainWindow.cpp" />
   </ItemGroup>

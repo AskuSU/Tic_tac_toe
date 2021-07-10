@@ -1,5 +1,11 @@
 #include "MainWindow.h"
 
+MainWindow::MainWindow(HINSTANCE* hInst) : BaseWindow(hInst), pFactory(NULL), pRenderTarget(NULL), pBrush(NULL),
+ptMouse(D2D1::Point2F()), nextColor(0)//, selection(ellipses.end())
+{
+    CalculeteObjectOnField();
+}
+
 LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     switch (uMsg)
@@ -272,18 +278,18 @@ void MainWindow::OnLButtonUp()
 
 void MainWindow::CalculeteObjectOnField()
 {
-    for (size_t i = 0; i < gameField::sizeMatrix; i++)
+    for (size_t i = 0; i < gameField.sizeMatrix; i++)
     {
-        for (size_t j = 0; j < gameField::sizeMatrix; j++)
+        for (size_t j = 0; j < gameField.sizeMatrix; j++)
         {
             selection = cells.insert(
                 cells.end(),
-                shared_ptr<CellField>(new CellField()));
+                shared_ptr<CellField>(new CellField(&gameField)));
 
-            Selection()->rect.top = (float)gameField::spaceBetweenCellpx + (gameField::sizeCellpx + gameField::spaceBetweenCellpx) * i;
-            Selection()->rect.left = (float)gameField::spaceBetweenCellpx + (gameField::sizeCellpx + gameField::spaceBetweenCellpx) * j;
-            Selection()->rect.bottom = Selection()->rect.top + gameField::sizeCellpx;
-            Selection()->rect.right = Selection()->rect.left + gameField::sizeCellpx;
+            Selection()->rect.top = (float)gameField.spaceBetweenCellpx + (gameField.sizeCellpx + gameField.spaceBetweenCellpx) * i;
+            Selection()->rect.left = (float)gameField.spaceBetweenCellpx + (gameField.sizeCellpx + gameField.spaceBetweenCellpx) * j;
+            Selection()->rect.bottom = Selection()->rect.top + gameField.sizeCellpx;
+            Selection()->rect.right = Selection()->rect.left + gameField.sizeCellpx;
         }        
     }
 }

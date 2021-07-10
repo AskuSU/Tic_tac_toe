@@ -9,12 +9,14 @@ using namespace std;
 
 class MainWindow : public BaseWindow<MainWindow>
 {
-    enum Mode
+    /*enum Mode
     {
         DrawMode,
         SelectMode,
         DragMode
-    };
+    };*/
+
+    GameField gameField;
 
     //HCURSOR                 hCursor;
 
@@ -37,25 +39,21 @@ class MainWindow : public BaseWindow<MainWindow>
 
     BOOL    HitTest(POINT pt);
     void    clickOnCell(POINT pt);
-    void    SetMode(Mode m);
-    void    MoveSelection(float x, float y);
+    //void    SetMode(Mode m);
+    //void    MoveSelection(float x, float y);
     HRESULT CreateGraphicsResources();
     void    DiscardGraphicsResources();
     void    OnPaint();
     void    Resize();
     void    OnLButtonDown(int pixelX, int pixelY, DWORD flags);
     void    OnLButtonUp();
-    void    OnMouseMove(int pixelX, int pixelY, DWORD flags);
-    void    OnKeyDown(UINT vkey);
+    //void    OnMouseMove(int pixelX, int pixelY, DWORD flags);
+    //void    OnKeyDown(UINT vkey);
     void    CalculeteObjectOnField();
 
 public:
 
-    MainWindow(HINSTANCE* hInst) : BaseWindow(hInst),pFactory(NULL), pRenderTarget(NULL), pBrush(NULL),
-        ptMouse(D2D1::Point2F()), nextColor(0)//, selection(ellipses.end())
-    {
-        CalculeteObjectOnField();
-    }
+    MainWindow(HINSTANCE* hInst);    
     
     LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
 

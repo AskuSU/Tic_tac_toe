@@ -5,6 +5,18 @@ size_t gameField::GetSizepx()
 	return (sizeMatrix * sizeCellpx + (sizeMatrix + 1) * spaceBetweenCellpx);
 }
 
+shared_ptr<CellField> gameField::Selection()
+{
+	if (selection == cells.end())
+	{
+		return nullptr;
+	}
+	else
+	{
+		return (*selection);
+	}
+}
+
 gameField::gameField()
 {
 	sizeMatrix = 3;
@@ -76,7 +88,7 @@ BOOL CellField::HitTest(POINT pt)
 	return ((rect.left < pt.x) && (rect.right > pt.x)) && ((rect.top < pt.y) && (rect.bottom > pt.y));
 }
 
-CellField::cellField(GameField* gField) : cell(Cell::empty), color(gField->backgroundColour), ellipse(), rect(D2D1::RectF())
+CellField::CellField(GameField* gField) : cell(Cell::empty), color(gField->backgroundColour), ellipse(), rect(D2D1::RectF())
 {
 	gameField = gField;
 	lengthContent = gameField->sizeCellpx * 0.75f;

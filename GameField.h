@@ -6,6 +6,8 @@
 
 using namespace std;
 
+struct CellField;
+
 typedef struct gameField
 {
 	size_t	sizeMatrix;							//Размер матрицы поля
@@ -16,12 +18,19 @@ typedef struct gameField
 		
 	D2D1_COLOR_F backgroundColour; //Цвет фона окна
 
+	list<shared_ptr<CellField>>             cells;
+	list<shared_ptr<CellField>>::iterator   selection;
+
+	shared_ptr<CellField> Selection();
+
+	void    ClearSelection() { selection = cells.end(); }
+	
 	gameField();
 	size_t GetSizepx();
 } GameField;
 
 
-typedef struct cellField
+typedef struct CellField
 {
 	enum class Cell
 	{
@@ -45,7 +54,7 @@ typedef struct cellField
 	float radiusZero;				//Радиус O
 	float halfLengthDiagonalCross;	//Длинна половины диагонали X
 
-	cellField(GameField* gField);
+	CellField(GameField* gField);
 
 	BOOL HitTest(POINT pt);
 
@@ -54,4 +63,4 @@ typedef struct cellField
 	BOOL CheckEmptyInTheCell();
 	void SetValueOnCell(Cell value);
 
-} CellField;
+};

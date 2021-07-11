@@ -29,14 +29,7 @@ class MainWindow : public BaseWindow<MainWindow>
 
     //Mode                    mode;
     size_t                  nextColor;
-    
-    list<shared_ptr<CellField>>             cells;
-    list<shared_ptr<CellField>>::iterator   selection;
-        
-    shared_ptr<CellField> Selection();
-    
-
-    void    ClearSelection() { selection = cells.end(); }
+            
     //HRESULT InsertEllipse(float x, float y);
 
     BOOL    HitTest(POINT pt);

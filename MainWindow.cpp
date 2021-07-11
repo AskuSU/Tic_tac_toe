@@ -131,25 +131,15 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 //    return 0;    
 //}
 
-shared_ptr<CellField> MainWindow::Selection()
-{
-    if (selection == cells.end())
-    {
-        return nullptr;
-    }
-    else
-    {
-        return (*selection);
-    }
-}
+
 
 BOOL MainWindow::HitTest(POINT pt)
 {
-    for (auto i = cells.rbegin(); i != cells.rend(); ++i)
+    for (auto i = gameField.cells.rbegin(); i != gameField.cells.rend(); ++i)
     {
         if ((*i)->HitTest(pt))
         {
-            selection = (++i).base();
+            gameField.selection = (++i).base();
             return TRUE;
         }
     }
@@ -200,7 +190,7 @@ void MainWindow::OnPaint()
 
         pRenderTarget->BeginDraw();        
 
-        for (auto i = cells.begin(); i != cells.end(); i++)
+        for (auto i = gameField.cells.begin(); i != gameField.cells.end(); i++)
         {
             (*i)->DrawCell(pRenderTarget, pBrush);
             (*i)->DrawValue(pRenderTarget, pBrush);
@@ -264,7 +254,7 @@ void MainWindow::OnLButtonDown(int pixelX, int pixelY, DWORD flags)
 
     if (HitTest(pt))
     {
-        gameLogic.playerTurn(Selection().get());
+        gameLogic.playerTurn(gameField.Selection().get());
     }
             
     InvalidateRect(hWnd, NULL, FALSE);
@@ -282,14 +272,14 @@ void MainWindow::CalculeteObjectOnField()
     {
         for (size_t j = 0; j < gameField.sizeMatrix; j++)
         {
-            selection = cells.insert(
-                cells.end(),
+            gameField.selection = gameField.cells.insert(
+                gameField.cells.end(),
                 shared_ptr<CellField>(new CellField(&gameField)));
 
-            Selection()->rect.top = (float)gameField.spaceBetweenCellpx + (gameField.sizeCellpx + gameField.spaceBetweenCellpx) * i;
-            Selection()->rect.left = (float)gameField.spaceBetweenCellpx + (gameField.sizeCellpx + gameField.spaceBetweenCellpx) * j;
-            Selection()->rect.bottom = Selection()->rect.top + gameField.sizeCellpx;
-            Selection()->rect.right = Selection()->rect.left + gameField.sizeCellpx;
+            gameField.Selection()->rect.top = (float)gameField.spaceBetweenCellpx + (gameField.sizeCellpx + gameField.spaceBetweenCellpx) * i;
+            gameField.Selection()->rect.left = (float)gameField.spaceBetweenCellpx + (gameField.sizeCellpx + gameField.spaceBetweenCellpx) * j;
+            gameField.Selection()->rect.bottom = gameField.Selection()->rect.top + gameField.sizeCellpx;
+            gameField.Selection()->rect.right = gameField.Selection()->rect.left + gameField.sizeCellpx;
         }        
     }
 }

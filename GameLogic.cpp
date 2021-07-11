@@ -2,6 +2,8 @@
 
 gameLogic::gameLogic()
 {
+	std::mt19937 mersenne(rd());	
+
 	scorePlayer = scoreAI = 0;
 	elementsToWin = 3;
 
@@ -16,3 +18,12 @@ void gameLogic::playerTurn(CellField* cellFd)
 		cellFd->SetValueOnCell(playerValue);
 	}
 }
+
+void gameLogic::AI_Turn()
+{
+	size_t x, y;
+	std::uniform_real_distribution<double> dist(0, 8);
+}
+
+
+

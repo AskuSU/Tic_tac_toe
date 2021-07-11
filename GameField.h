@@ -1,6 +1,10 @@
 #pragma once
 
 #include <d2d1.h>
+#include <list>
+#include <memory>
+
+using namespace std;
 
 typedef struct gameField
 {

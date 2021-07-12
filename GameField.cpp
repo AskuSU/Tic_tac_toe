@@ -17,6 +17,18 @@ shared_ptr<CellField> gameField::Selection()
 	}
 }
 
+BOOL gameField::CheckEmptyCellOnTheField()
+{
+	for (auto cel : cells )
+	{
+		if (cel->cell == CellField::Cell::empty)
+		{
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
 gameField::gameField()
 {
 	sizeMatrix = 3;
@@ -125,3 +137,4 @@ BOOL CellField::CheckEmptyInTheCell()
 {
 	return cell == Cell::empty;
 }
+

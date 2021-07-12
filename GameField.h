@@ -1,7 +1,8 @@
 #pragma once
 
 #include <d2d1.h>
-#include <list>
+//#include <list>
+#include <vector>
 #include <memory>
 
 using namespace std;
@@ -10,20 +11,21 @@ struct CellField;
 
 typedef struct gameField
 {
-	size_t	sizeMatrix;							//Размер матрицы поля
-	size_t	sizeCellpx;							//Длинна ячейки
-	static const size_t	thicknessBorderpx = 1;	//Толщина рамки
-	static const size_t	spaceBetweenCellpx = 4;	//Промежуток м/у ячейками 
-	static const size_t	thicknessContent = 4;   //Толщина фигур O X
+	size_t	sizeMatrix;									//Размер матрицы поля
+	size_t	sizeCellpx;									//Длинна ячейки
+	static const size_t	thicknessBorderpx = 1;			//Толщина рамки
+	static const size_t	spaceBetweenCellpx = 4;			//Промежуток м/у ячейками 
+	static const size_t	thicknessContent = 4;			//Толщина фигур O X
 		
-	D2D1_COLOR_F backgroundColour; //Цвет фона окна
+	D2D1_COLOR_F backgroundColour;						//Цвет фона окна
 
-	list<shared_ptr<CellField>>             cells;
-	list<shared_ptr<CellField>>::iterator   selection;
+	vector<shared_ptr<CellField>>             cells;		//Список ячеек
+	vector<shared_ptr<CellField>>::iterator   selection;	//Выбранная ячейка
 
 	shared_ptr<CellField> Selection();
 
-	void    ClearSelection() { selection = cells.end(); }
+	void ClearSelection() { selection = cells.end(); }
+	BOOL CheckEmptyCellOnTheField();
 	
 	gameField();
 	size_t GetSizepx();
@@ -60,7 +62,7 @@ typedef struct CellField
 
 	void DrawCell(ID2D1RenderTarget* pRT, ID2D1SolidColorBrush* pBrush);
 	void DrawValue(ID2D1RenderTarget* pRT, ID2D1SolidColorBrush* pBrush);
-	BOOL CheckEmptyInTheCell();
+	BOOL CheckEmptyInTheCell();	
 	void SetValueOnCell(Cell value);
 
 };

@@ -18,5 +18,5 @@ typedef struct gameLogic
 	std::random_device rd;	
 
 	void playerTurn(CellField* cellFd);
-	void AI_Turn();
+	void AI_Turn(GameField* gameFl);
 } GameLogic;

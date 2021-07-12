@@ -264,6 +264,7 @@ void MainWindow::OnLButtonUp()
 {
     //InvalidateRect(hWnd, NULL, FALSE);
     //ReleaseCapture();
+    gameLogic.AI_Turn(&gameField);
 }
 
 void MainWindow::CalculeteObjectOnField()

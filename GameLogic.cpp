@@ -1,25 +1,35 @@
 #include "GameLogic.h"
 
-gameLogic::gameLogic()
+GameLogic::GameLogic()
 {
 	
 
 	scorePlayer = scoreAI = 0;
 	elementsToWin = 3;
 
+	nextMove = players::Player;
+
 	playerValue = CellField::Cell::cross;
 	AI_Value = CellField::Cell::zero;
 }
 
-void gameLogic::playerTurn(CellField* cellFd)
+players GameLogic::NextMove()
+{
+	return nextMove;
+}
+
+BOOL GameLogic::PlayerTurn(CellField* cellFd)
 {
 	if (cellFd->CheckEmptyInTheCell())
 	{
 		cellFd->SetValueOnCell(playerValue);
+		nextMove = players::AI;
+		return TRUE;
 	}
+	return FALSE;
 }
 
-void gameLogic::AI_Turn(GameField* gameFl)
+BOOL GameLogic::AI_Turn(GameField* gameFl)
 {
 	size_t x, y;
 	std::mt19937 mersenne(rd());
@@ -34,7 +44,10 @@ void gameLogic::AI_Turn(GameField* gameFl)
 		} while (!(*cel)->CheckEmptyInTheCell());
 		gameFl->selection = cel;
 		(*cel)->SetValueOnCell(AI_Value);
-	}	
+		nextMove = players::Player;
+		return TRUE;
+	}
+	return FALSE;
 }
 
 

@@ -1,10 +1,10 @@
 #pragma once
-#include"BaseWin.h"
-#include"Resource.h"
+#include "BaseWin.h"
+#include "Resource.h"
 #include "GameField.h"
 #include "GameLogic.h"
 
-#include<list>
+#include <list>
 #include <memory>
 using namespace std;
 

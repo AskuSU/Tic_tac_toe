@@ -1,22 +1,31 @@
 #pragma once
-#include"GameField.h"
-#include<random>
-#include<list>
+#include "GameField.h"
+#include <random>
+#include <list>
 
-typedef struct gameLogic
+enum class players
+{
+	Player,
+	AI
+};
+
+class GameLogic
 {
 	size_t scorePlayer;
 	size_t scoreAI;
 
 	size_t elementsToWin;
 
+	players nextMove;
+
 	CellField::Cell playerValue;
 	CellField::Cell AI_Value;
 	
-	gameLogic();
-
 	std::random_device rd;	
+public:
+	GameLogic();
 
-	void playerTurn(CellField* cellFd);
-	void AI_Turn(GameField* gameFl);
-} GameLogic;
+	players NextMove();
+	BOOL PlayerTurn(CellField* cellFd);
+	BOOL AI_Turn(GameField* gameFl);
+};

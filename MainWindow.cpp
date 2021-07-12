@@ -254,7 +254,14 @@ void MainWindow::OnLButtonDown(int pixelX, int pixelY, DWORD flags)
 
     if (HitTest(pt))
     {
-        gameLogic.playerTurn(gameField.Selection().get());
+        if (gameLogic.NextMove() == players::Player)
+        {
+            gameLogic.PlayerTurn(gameField.Selection().get());
+        }
+        if (gameLogic.NextMove() == players::AI)
+        {
+            gameLogic.AI_Turn(&gameField);
+        }
     }
             
     InvalidateRect(hWnd, NULL, FALSE);
@@ -263,8 +270,7 @@ void MainWindow::OnLButtonDown(int pixelX, int pixelY, DWORD flags)
 void MainWindow::OnLButtonUp()
 {
     //InvalidateRect(hWnd, NULL, FALSE);
-    //ReleaseCapture();
-    gameLogic.AI_Turn(&gameField);
+    //ReleaseCapture();    
 }
 
 void MainWindow::CalculeteObjectOnField()

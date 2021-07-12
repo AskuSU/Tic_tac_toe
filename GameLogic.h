@@ -9,6 +9,13 @@ enum class players
 	AI
 };
 
+struct winner
+{
+	BOOL won;
+	players who;
+};
+
+
 class GameLogic
 {
 	size_t scorePlayer;
@@ -16,6 +23,11 @@ class GameLogic
 
 	size_t elementsToWin;
 
+	struct movePosition
+	{
+		size_t x, y;
+	} movePos;
+	
 	players nextMove;
 
 	CellField::Cell playerValue;
@@ -28,4 +40,5 @@ public:
 	players NextMove();
 	BOOL PlayerTurn(CellField* cellFd);
 	BOOL AI_Turn(GameField* gameFl);
+	winner HasAnyoneWon(GameField* gameFl);
 };

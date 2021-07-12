@@ -7,34 +7,36 @@ size_t gameField::GetSizepx()
 
 shared_ptr<CellField> gameField::Selection()
 {
-	if (selection == cells.end())
+	/*if (selection == cells[0].end())
 	{
 		return nullptr;
 	}
-	else
-	{
+	else*/
+	
 		return (*selection);
-	}
+	
 }
 
 BOOL gameField::CheckEmptyCellOnTheField()
 {
-	for (auto cel : cells )
+	for (size_t i = 0; i < sizeMatrix; i++)
 	{
-		if (cel->cell == CellField::Cell::empty)
+		for (auto cel : cells[i])
 		{
-			return TRUE;
+			if (cel->cell == CellField::Cell::empty)
+			{
+				return TRUE;
+			}
 		}
 	}
 	return FALSE;
 }
 
-gameField::gameField()
+gameField::gameField() : sizeMatrix(3), sizeCellpx(200)
 {
-	sizeMatrix = 3;
-	sizeCellpx = 200;
-
 	backgroundColour = D2D1::ColorF(D2D1::ColorF::Black);
+
+	cells.resize(sizeMatrix);
 }
 
 void CellField::DrawCell(ID2D1RenderTarget* pRT, ID2D1SolidColorBrush* pBrush)

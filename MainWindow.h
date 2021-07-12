@@ -33,7 +33,7 @@ class MainWindow : public BaseWindow<MainWindow>
     //HRESULT InsertEllipse(float x, float y);
 
     BOOL    HitTest(POINT pt);
-    void    clickOnCell(POINT pt);
+    void    clickOnCell();
     //void    SetMode(Mode m);
     //void    MoveSelection(float x, float y);
     HRESULT CreateGraphicsResources();

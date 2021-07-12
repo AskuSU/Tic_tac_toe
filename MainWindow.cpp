@@ -135,19 +135,36 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 BOOL MainWindow::HitTest(POINT pt)
 {
-    for (auto i = gameField.cells.rbegin(); i != gameField.cells.rend(); ++i)
+    for (size_t i = 0; i < gameField.sizeMatrix; i++)
     {
-        if ((*i)->HitTest(pt))
+        for (auto j = gameField.cells[i].rbegin(); j != gameField.cells[i].rend(); ++j)
         {
-            gameField.selection = (++i).base();
-            return TRUE;
+            if ((*j)->HitTest(pt))
+            {
+                gameField.selection = (++j).base();
+                return TRUE;
+            }
         }
     }
     return FALSE;
 }
 
-void MainWindow::clickOnCell(POINT pt)
+void MainWindow::clickOnCell()
 {
+    if (gameLogic.NextMove() == players::Player)
+    {
+        if (gameLogic.PlayerTurn(gameField.Selection().get()))
+        {
+            gameLogic.HasAnyoneWon(&gameField);
+        }
+    }
+    if (gameLogic.NextMove() == players::AI)
+    {
+        if (gameLogic.AI_Turn(&gameField))
+        {
+            gameLogic.HasAnyoneWon(&gameField);
+        }
+    }
 }
 
 HRESULT MainWindow::CreateGraphicsResources()
@@ -190,11 +207,14 @@ void MainWindow::OnPaint()
 
         pRenderTarget->BeginDraw();        
 
-        for (auto i = gameField.cells.begin(); i != gameField.cells.end(); i++)
+        for (size_t i = 0; i < gameField.sizeMatrix; i++)
         {
-            (*i)->DrawCell(pRenderTarget, pBrush);
-            (*i)->DrawValue(pRenderTarget, pBrush);
+            for (auto j = gameField.cells[i].begin(); j != gameField.cells[i].end(); j++)
+            {
+                (*j)->DrawCell(pRenderTarget, pBrush);
+                (*j)->DrawValue(pRenderTarget, pBrush);
 
+            }
         }
         //if (Selection())
         //{
@@ -254,14 +274,7 @@ void MainWindow::OnLButtonDown(int pixelX, int pixelY, DWORD flags)
 
     if (HitTest(pt))
     {
-        if (gameLogic.NextMove() == players::Player)
-        {
-            gameLogic.PlayerTurn(gameField.Selection().get());
-        }
-        if (gameLogic.NextMove() == players::AI)
-        {
-            gameLogic.AI_Turn(&gameField);
-        }
+        clickOnCell();
     }
             
     InvalidateRect(hWnd, NULL, FALSE);
@@ -279,8 +292,8 @@ void MainWindow::CalculeteObjectOnField()
     {
         for (size_t j = 0; j < gameField.sizeMatrix; j++)
         {
-            gameField.selection = gameField.cells.insert(
-                gameField.cells.end(),
+            gameField.selection = gameField.cells[i].insert(
+                gameField.cells[i].end(),
                 shared_ptr<CellField>(new CellField(&gameField)));
 
             gameField.Selection()->rect.top = (float)gameField.spaceBetweenCellpx + (gameField.sizeCellpx + gameField.spaceBetweenCellpx) * i;

@@ -19,12 +19,12 @@ typedef struct gameField
 		
 	D2D1_COLOR_F backgroundColour;						//÷вет фона окна
 
-	vector<shared_ptr<CellField>>             cells;		//—писок €чеек
-	vector<shared_ptr<CellField>>::iterator   selection;	//¬ыбранна€ €чейка
+	vector<vector<shared_ptr<CellField>>>		cells;		//—писок €чеек
+	vector<shared_ptr<CellField>>::iterator		selection;	//¬ыбранна€ €чейка
 
 	shared_ptr<CellField> Selection();
 
-	void ClearSelection() { selection = cells.end(); }
+	//void ClearSelection() { selection = cells[0].end(); }
 	BOOL CheckEmptyCellOnTheField();
 	
 	gameField();

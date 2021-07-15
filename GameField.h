@@ -32,7 +32,7 @@ typedef struct gameField
 } GameField;
 
 
-typedef struct CellField
+struct CellField
 {
 	enum class Cell
 	{
@@ -41,7 +41,13 @@ typedef struct CellField
 		cross
 	};
 
+	struct pos
+	{
+		size_t x, y;
+	};
+
 	GameField* gameField;
+	pos Pos;
 	
 	D2D1_RECT_F rect;
 	D2D1_ELLIPSE ellipse;
@@ -56,7 +62,7 @@ typedef struct CellField
 	float radiusZero;				//Радиус O
 	float halfLengthDiagonalCross;	//Длинна половины диагонали X
 
-	CellField(GameField* gField);
+	CellField(GameField* gField, size_t x, size_t y);
 
 	BOOL HitTest(POINT pt);
 

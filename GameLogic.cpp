@@ -31,7 +31,7 @@ BOOL GameLogic::PlayerTurn(CellField* cellFd)
 
 BOOL GameLogic::AI_Turn(GameField* gameFl)
 {
-	size_t x, y;
+	//size_t x, y;
 	std::mt19937 mersenne(rd());
 	std::uniform_real_distribution<double> dist(0, 9);
 	auto cel = gameFl->cells[0].begin();
@@ -39,7 +39,7 @@ BOOL GameLogic::AI_Turn(GameField* gameFl)
 	{
 		do
 		{
-			size_t a = dist(mersenne);
+			size_t a = static_cast<size_t>(dist(mersenne));
 			cel = gameFl->cells[a/gameFl->sizeMatrix].begin();
 			cel += a % gameFl->sizeMatrix;
 		} while (!(*cel)->CheckEmptyInTheCell());
@@ -51,9 +51,97 @@ BOOL GameLogic::AI_Turn(GameField* gameFl)
 	return FALSE;
 }
 
-winner GameLogic::HasAnyoneWon(GameField* gameFl)
+winner GameLogic::IsThereAwinner(GameField* gameFl)
 {
-	
+	int x = static_cast<int>(gameFl->Selection()->Pos.x);
+	int y = static_cast<int>(gameFl->Selection()->Pos.y);
+	int elemToWin = static_cast<int>(elementsToWin);
+	int size = static_cast<int>(gameFl->sizeMatrix);
+
+	int fromY = 0, toY = 0, fromX = 0, toX = 0, qty = 0;
+	//vertical
+	//fromY = ((y - elemToWin + 1) >= 0) ? (y - elemToWin + 1) : 0;
+	//toY = ((y + elemToWin - 1) < size) ? (y + elemToWin - 1) : size - 1;
+	fromY = y - elemToWin + 1;
+	toY = y + elemToWin - 1;
+
+	for (size_t i = (fromY >= 0 ? (y - elemToWin + 1) : 0); i <= (toY < size ? (y + elemToWin - 1) : size - 1); i++)
+	{
+		if (gameFl->cells[i][x]->cell == gameFl->cells[y][x]->cell)
+		{
+			qty++;
+		}
+		else
+		{
+			qty = 0;
+		}
+		if (qty >= elemToWin)
+		{
+			return winner{ true, nextMove };
+		}
+	}
+	//horizontal
+	qty = 0;
+	//fromX = ((x - elemToWin + 1) >= 0) ? (x - elemToWin + 1) : 0;
+	//toX = ((x + elemToWin - 1) < size) ? (x + elemToWin - 1) : size - 1;
+	fromX = x - elemToWin + 1;
+	toX = x + elemToWin - 1;
+
+	for (size_t i = (fromX >= 0 ? (x - elemToWin + 1) : 0); i <= (toX < size ? (x + elemToWin - 1) : size - 1); i++)
+	{
+		if (gameFl->cells[y][i]->cell == gameFl->cells[y][x]->cell)
+		{
+			qty++;
+		}
+		else
+		{
+			qty = 0;
+		}
+		if (qty >= elemToWin)
+		{
+			return winner{ true, nextMove };
+		}
+	}
+	//diagonal Top Left
+	qty = 0;	
+	for (size_t i = 0; i < 2 * elemToWin; i++)
+	{
+		if ((fromY + i >= 0) && (fromX + i >= 0) && (fromY + i < size) && (fromX + i < size))
+		{
+			if (gameFl->cells[fromY + i][fromX + i]->cell == gameFl->cells[y][x]->cell)
+			{
+				qty++;
+			}
+			else
+			{
+				qty = 0;
+			}
+			if (qty >= elemToWin)
+			{
+				return winner{ true, nextMove };
+			}
+		}
+	}
+	// diagonal Bottom Left
+	qty = 0;
+	for (size_t i = 0; i < 2 * elemToWin; i++)
+	{
+		if ((toY - i < size) && (fromX + i >= 0) && (toY - i >= 0) && (fromX + i < size))
+		{
+			if (gameFl->cells[toY - i][fromX + i]->cell == gameFl->cells[y][x]->cell)
+			{
+				qty++;
+			}
+			else
+			{
+				qty = 0;
+			}
+			if (qty >= elemToWin)
+			{
+				return winner{ true, nextMove };
+			}
+		}
+	}
 	return winner();
 }
 

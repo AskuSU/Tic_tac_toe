@@ -102,7 +102,7 @@ BOOL CellField::HitTest(POINT pt)
 	return ((rect.left < pt.x) && (rect.right > pt.x)) && ((rect.top < pt.y) && (rect.bottom > pt.y));
 }
 
-CellField::CellField(GameField* gField) : cell(Cell::empty), color(gField->backgroundColour), ellipse(), rect(D2D1::RectF())
+CellField::CellField(GameField* gField, size_t x, size_t y) : cell(Cell::empty), color(gField->backgroundColour), ellipse(), rect(D2D1::RectF()), Pos{ x, y }
 {
 	gameField = gField;
 	lengthContent = gameField->sizeCellpx * 0.75f;

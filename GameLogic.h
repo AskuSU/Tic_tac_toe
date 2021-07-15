@@ -2,6 +2,7 @@
 #include "GameField.h"
 #include <random>
 #include <list>
+//#include <cmath>
 
 enum class players
 {
@@ -40,5 +41,5 @@ public:
 	players NextMove();
 	BOOL PlayerTurn(CellField* cellFd);
 	BOOL AI_Turn(GameField* gameFl);
-	winner HasAnyoneWon(GameField* gameFl);
+	winner IsThereAwinner(GameField* gameFl);
 };

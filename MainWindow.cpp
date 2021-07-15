@@ -152,17 +152,17 @@ BOOL MainWindow::HitTest(POINT pt)
 void MainWindow::clickOnCell()
 {
     if (gameLogic.NextMove() == players::Player)
-    {
+    {        
         if (gameLogic.PlayerTurn(gameField.Selection().get()))
         {
-            gameLogic.HasAnyoneWon(&gameField);
+            gameLogic.IsThereAwinner(&gameField);
         }
     }
     if (gameLogic.NextMove() == players::AI)
     {
         if (gameLogic.AI_Turn(&gameField))
         {
-            gameLogic.HasAnyoneWon(&gameField);
+            gameLogic.IsThereAwinner(&gameField);
         }
     }
 }
@@ -294,7 +294,7 @@ void MainWindow::CalculeteObjectOnField()
         {
             gameField.selection = gameField.cells[i].insert(
                 gameField.cells[i].end(),
-                shared_ptr<CellField>(new CellField(&gameField)));
+                shared_ptr<CellField>(new CellField(&gameField, j, i)));
 
             gameField.Selection()->rect.top = (float)gameField.spaceBetweenCellpx + (gameField.sizeCellpx + gameField.spaceBetweenCellpx) * i;
             gameField.Selection()->rect.left = (float)gameField.spaceBetweenCellpx + (gameField.sizeCellpx + gameField.spaceBetweenCellpx) * j;

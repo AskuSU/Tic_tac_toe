@@ -5,6 +5,8 @@
 #include <vector>
 #include <memory>
 
+#include "Resource.h"
+
 using namespace std;
 
 struct CellField;

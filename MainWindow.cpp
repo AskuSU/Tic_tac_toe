@@ -151,14 +151,14 @@ BOOL MainWindow::HitTest(POINT pt)
 
 void MainWindow::clickOnCell()
 {
-    if (gameLogic.NextMove() == players::Player)
+    if (gameLogic.NextMove() == players::Player && gameLogic.DidNotWin())
     {        
         if (gameLogic.PlayerTurn(gameField.Selection().get()))
         {
             gameLogic.IsThereAwinner(&gameField);
         }
     }
-    if (gameLogic.NextMove() == players::AI)
+    if (gameLogic.NextMove() == players::AI && gameLogic.DidNotWin())
     {
         if (gameLogic.AI_Turn(&gameField))
         {

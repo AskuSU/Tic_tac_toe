@@ -10,11 +10,7 @@ enum class players
 	AI
 };
 
-struct winner
-{
-	BOOL won;
-	players who;
-};
+
 
 
 class GameLogic
@@ -28,6 +24,12 @@ class GameLogic
 	{
 		size_t x, y;
 	} movePos;
+
+	struct winner
+	{
+		BOOL won;
+		players who;
+	} whoWin;
 	
 	players nextMove;
 
@@ -41,5 +43,7 @@ public:
 	players NextMove();
 	BOOL PlayerTurn(CellField* cellFd);
 	BOOL AI_Turn(GameField* gameFl);
-	winner IsThereAwinner(GameField* gameFl);
+	void IsThereAwinner(GameField* gameFl);
+	void WhoWin(BOOL won, players who);
+	BOOL DidNotWin();
 };

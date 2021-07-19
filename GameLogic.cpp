@@ -5,7 +5,7 @@ GameLogic::GameLogic()
 	
 
 	scorePlayer = scoreAI = 0;
-	elementsToWin = 3;
+	elementsToWin = CONST_ELEMENTTOWIN;
 
 	nextMove = players::Player;
 
@@ -33,7 +33,7 @@ BOOL GameLogic::AI_Turn(GameField* gameFl)
 {
 	//size_t x, y;
 	std::mt19937 mersenne(rd());
-	std::uniform_real_distribution<double> dist(0, 9);
+	std::uniform_real_distribution<double> dist(0, gameFl->sizeMatrix * gameFl->sizeMatrix);
 	auto cel = gameFl->cells[0].begin();
 	if (gameFl->CheckEmptyCellOnTheField())
 	{
@@ -51,7 +51,7 @@ BOOL GameLogic::AI_Turn(GameField* gameFl)
 	return FALSE;
 }
 
-winner GameLogic::IsThereAwinner(GameField* gameFl)
+void GameLogic::IsThereAwinner(GameField* gameFl)
 {
 	int x = static_cast<int>(gameFl->Selection()->Pos.x);
 	int y = static_cast<int>(gameFl->Selection()->Pos.y);
@@ -77,7 +77,8 @@ winner GameLogic::IsThereAwinner(GameField* gameFl)
 		}
 		if (qty >= elemToWin)
 		{
-			return winner{ true, nextMove };
+			WhoWin(true, nextMove);
+			return;
 		}
 	}
 	//horizontal
@@ -99,7 +100,8 @@ winner GameLogic::IsThereAwinner(GameField* gameFl)
 		}
 		if (qty >= elemToWin)
 		{
-			return winner{ true, nextMove };
+			WhoWin(true, nextMove);
+			return;
 		}
 	}
 	//diagonal Top Left
@@ -118,7 +120,8 @@ winner GameLogic::IsThereAwinner(GameField* gameFl)
 			}
 			if (qty >= elemToWin)
 			{
-				return winner{ true, nextMove };
+				WhoWin(true, nextMove);
+				return;
 			}
 		}
 	}
@@ -138,11 +141,23 @@ winner GameLogic::IsThereAwinner(GameField* gameFl)
 			}
 			if (qty >= elemToWin)
 			{
-				return winner{ true, nextMove };
+				WhoWin(true, nextMove);
+				return;
 			}
 		}
 	}
-	return winner();
+	return;
+}
+
+void GameLogic::WhoWin(BOOL won, players who)
+{
+	this->whoWin.won = won;
+	this->whoWin.who = who;
+}
+
+BOOL GameLogic::DidNotWin()
+{
+	return !whoWin.won;
 }
 
 

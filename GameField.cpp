@@ -32,7 +32,7 @@ BOOL gameField::CheckEmptyCellOnTheField()
 	return FALSE;
 }
 
-gameField::gameField() : sizeMatrix(3), sizeCellpx(200)
+gameField::gameField() : sizeMatrix(CONST_SIZEMATRIX), sizeCellpx(CONST_SIZECELLPX)
 {
 	backgroundColour = D2D1::ColorF(D2D1::ColorF::Black);
 

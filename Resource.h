@@ -2,20 +2,23 @@
 // Включаемый файл, созданный в Microsoft Visual C++.
 // Используется HW_L8_Tic_tac_toe.rc
 
-#define IDS_APP_TITLE			103
+#define IDS_APP_TITLE				103
 
-#define IDR_MAINFRAME			128
+#define IDR_MAINFRAME				128
 #define IDD_HWL8TICTACTOE_DIALOG	102
-#define IDD_ABOUTBOX			103
-#define IDM_ABOUT				104
-#define IDM_EXIT				105
+#define IDD_ABOUTBOX				103
+#define IDM_ABOUT					104
+#define IDM_EXIT					105
 #define IDI_HWL8TICTACTOE			107
-#define IDI_SMALL				108
+#define IDI_SMALL					108
 #define IDC_HWL8TICTACTOE			109
-#define IDC_MYICON				2
+#define IDC_MYICON					2
 #ifndef IDC_STATIC
-#define IDC_STATIC				-1
+#define IDC_STATIC					-1
 #endif
+#define CONST_SIZEMATRIX			3
+#define CONST_ELEMENTTOWIN			3
+#define CONST_SIZECELLPX			200
 // Следующие стандартные значения для новых объектов
 //
 #ifdef APSTUDIO_INVOKED
